@@ -119,7 +119,12 @@ int main(int argc, char** argv)
     std::shared_ptr<std::vector<int>> noc_latency = std::make_shared<std::vector<int>>();
     std::shared_ptr<std::vector<int>> noc_bw = std::make_shared<std::vector<int>>();
 
-    noc_bw->push_back(option.bw);
+    //felix
+    if(option.offchip_bw == -1){
+      option.offchip_bw = option.bw;
+    }
+    noc_bw->push_back(option.offchip_bw);
+    //=====
     noc_bw->push_back(option.bw);
     noc_bw->push_back(option.bw);
     noc_bw->push_back(option.bw);

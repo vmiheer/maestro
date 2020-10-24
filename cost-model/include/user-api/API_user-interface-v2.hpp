@@ -418,7 +418,13 @@ namespace maestro {
           configuration_->num_pes_ = ret->num_pes_;
           configuration_->l1_size_ = ret->l1_size_;
           configuration_->l2_size_ = ret->l2_size_;
-          configuration_->noc_bw_->at(0) = ret->noc_bw_;
+          //felix
+          if(ret->off_chip_bw_==-1){
+            ret->off_chip_bw_ =  ret->noc_bw_;
+          }
+          configuration_->noc_bw_->at(0) = ret->off_chip_bw_;
+//          configuration_->noc_bw_->at(0) = ret->noc_bw_;
+          //=====
           configuration_->noc_bw_->at(1) = ret->noc_bw_;
           configuration_->noc_bw_->at(2) = ret->noc_bw_;
           configuration_->noc_bw_->at(3) = ret->noc_bw_;

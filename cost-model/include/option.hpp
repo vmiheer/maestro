@@ -78,6 +78,8 @@ namespace maestro {
       int message_print_lv = 0;
       int pe_tick = 4;
       int bw_tick = 4;
+      //felix
+      int offchip_bw = -1;
 
 
       bool parse(int argc, char** argv)
@@ -103,6 +105,8 @@ namespace maestro {
 
           po::options_description nocs("Network on chip options");
           nocs.add_options()
+            //felix
+            ("offchip_bw", po::value<int>(&offchip_bw), "the bandwidth of Off-Chip")
             ("noc_bw", po::value<int>(&bw), "the bandwidth of NoC")
             ("noc_hops", po::value<int>(&hops), "the average number of NoC hops")
             ("noc_hop_latency", po::value<int>(&hop_latency), "the latency for each of NoC hop")

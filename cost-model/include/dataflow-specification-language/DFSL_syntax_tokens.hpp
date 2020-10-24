@@ -90,7 +90,9 @@ namespace maestro {
     const std::string tmp_l2size_decl_ = "L2Size";
     const std::string tmp_noc_bw_decl_ = "NoC_BW";
     const std::string tmp_noc_hops_decl_ = "NoC_NumHops";
-
+    //felix
+    const std::string tmp_offchip_bw_decl_ = "OffChip_BW";
+    //====
 
     /* Hardware Resource Description */
     const std::string accelerator_decl_ = "Accelerator";
