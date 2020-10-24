@@ -201,13 +201,13 @@ namespace maestro {
             }
 
 
-            if(num_partial_sums <= 0) {
-              std::cout << "Num partial sums is less than 0!" << std::endl;
-              if(write_log_file && cluster_idx <= print_cluster_lv) {
-                log_file << "Skipping Invalid case" << std::endl;
-              }
-              continue;
-            }
+//            if(num_partial_sums <= 0) {
+//              std::cout << "Num partial sums is less than 0!" << std::endl;
+//              if(write_log_file && cluster_idx <= print_cluster_lv) {
+//                log_file << "Skipping Invalid case" << std::endl;
+//              }
+//              continue;
+//            }
 
 
             for(auto& tensor : *input_tensors) {
@@ -721,7 +721,6 @@ namespace maestro {
            auto input_tensors = tensors_->GetTensorsInClass(DFA::TensorClass::InputTensor);
 
            int buffer_size_mult = do_double_buffering? 2 : 1;
-
            for(auto& tensor : *input_tensors) {
              auto dataclass = tensor->GetDataClass();
              auto coupled_vars = tensor->GetCoupledVariables();
@@ -741,7 +740,6 @@ namespace maestro {
              auto downstream_buffer_req = reuse_analysis->GetMappedVolume(tensor);
              auto prev_downstream_buffer_req = results->GetBufferSizeReq(BufferType::Downstream, tensor->GetDataClass());
              results->UpdateBufferSizeReq(BufferType::Downstream, prev_downstream_buffer_req + buffer_size_mult * downstream_buffer_req, dataclass);
-
            }
 
            for(auto& tensor : *output_tensors) {
@@ -764,19 +762,21 @@ namespace maestro {
 
              auto upstream_buffer_req = reuse_analysis->GetSpatialEgressTraffic(tensor, iter_status);
              results->UpdateBufferSizeReq(BufferType::Upstream, buffer_size_mult * upstream_buffer_req, dataclass);
-             if(cluster_idx == 0 && buffer_size_mult * upstream_buffer_req > configs_->l2_size_) {
-               error_handler_->PrintErrorMsg(TL::ErrorCode::NotEnoughL2Buffer,std::to_string(buffer_size_mult * upstream_buffer_req), this->GetName());
-               error_handler_->TerminateProgram();
-             }
+             //felix
+//             if(cluster_idx ==0 && buffer_size_mult * upstream_buffer_req > configs_->l2_size_) {
+//               error_handler_->PrintErrorMsg(TL::ErrorCode::NotEnoughL2Buffer,std::to_string(buffer_size_mult * upstream_buffer_req), this->GetName());
+//               error_handler_->TerminateProgram();
+//             }
 
              results->UpdateBufferAccessCount(BufferType::Upstream, BufferAccessType::Read, size, dataclass);
 
              auto downstream_buffer_req = reuse_analysis->GetMappedVolume(tensor);
              results->UpdateBufferSizeReq(BufferType::Downstream, buffer_size_mult * downstream_buffer_req, dataclass);
-             if(cluster_idx == num_cluster_lvs -1 && buffer_size_mult * downstream_buffer_req > configs_->l1_size_) {
-               error_handler_->PrintErrorMsg(TL::ErrorCode::NotEnoughL1Buffer,std::to_string(buffer_size_mult * downstream_buffer_req), this->GetName());
-               error_handler_->TerminateProgram();
-             }
+             //felix
+//             if(cluster_idx == num_cluster_lvs -1 && buffer_size_mult * downstream_buffer_req > configs_->l1_size_) {
+//               error_handler_->PrintErrorMsg(TL::ErrorCode::NotEnoughL1Buffer,std::to_string(buffer_size_mult * downstream_buffer_req), this->GetName());
+//               error_handler_->TerminateProgram();
+//             }
            }
         }
 

@@ -45,3 +45,5 @@ maestro
 .DS_Store
 
 *.pyc
+
+CmakeLists.txt
