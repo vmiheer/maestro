@@ -331,7 +331,15 @@ namespace maestro {
             else {
               outstanding_delay = (do_double_buffering)? std::max( egress_comm_delay, std::max(computation_delay, ingress_comm_delay)) : ingress_comm_delay + computation_delay + egress_comm_delay;
             }
-
+            //felix
+            if(cluster_idx == 0){
+              auto out_buffer_delay = (results->GetBufferSizeReq(CA::BufferType::Upstream, DataClass::Output))/configs_->offchip_bw_;
+              auto in_buffer_delay = (results->GetBufferSizeReq(CA::BufferType::Upstream, DataClass::Input) + results->GetBufferSizeReq(CA::BufferType::Upstream, DataClass::Weight))/configs_->offchip_bw_;
+              auto ingress_offchip_delay = (do_double_buffering)?in_buffer_delay/2:in_buffer_delay;
+              auto egress_offchip_delay = (do_double_buffering)?out_buffer_delay/2:out_buffer_delay;
+              outstanding_delay =  (do_double_buffering)?std::max(ingress_offchip_delay, std::max(outstanding_delay, egress_offchip_delay)): outstanding_delay + ingress_offchip_delay + egress_offchip_delay;
+            }
+            //
             results->UpdateRuntime(results->GetRuntime(CA::EstimationType::Exact) + num_case_occurrences * outstanding_delay, CA::EstimationType::Exact);
             results->UpdateNumComputations(results->GetNumComputations() + num_case_occurrences * tensor_spatial_partial_sum_mapping_size);
 
