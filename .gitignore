@@ -50,3 +50,6 @@ maestro
 CmakeLists.txt
 cmake-build-debug/
 .idea/
+my_run_example.sh
+*.csv
+
