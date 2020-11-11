@@ -47,7 +47,7 @@ maestro
 *.pyc
 
 # custom
-CmakeLists.txt
+#CmakeLists.txt
 cmake-build-debug/
 .idea/
 my_run_example.sh
