@@ -134,6 +134,8 @@ namespace maestro {
         //felix
         long model_wise_total_l1_size = 0;
         long model_wise_total_l2_size = 0;
+        long min_l1_size_req = 0;
+        long min_l2_size_req = 0;
         //===
         //std::cout << "Output gen is complete" << std::endl;
         if(print_results_to_screen) {
@@ -152,17 +154,29 @@ namespace maestro {
                                                inner_most_cluster_res->GetBufferSizeReq(CA::BufferType::Downstream, DataClass::Weight));
             model_wise_total_l2_size += layer_wise_total_l2_size;
             model_wise_total_l1_size += layer_wise_total_l1_size;
-            if(layer_wise_total_l1_size > configuration_->l1_size_) {
-                  error_handler_->PrintErrorMsg(TL::ErrorCode::NotEnoughL1Buffer,std::to_string(layer_wise_total_l1_size), this->GetName());
-                  error_handler_->TerminateProgram();
+//            if(layer_wise_total_l1_size > configuration_->l1_size_) {
+//                  error_handler_->PrintErrorMsg(TL::ErrorCode::NotEnoughL1Buffer,std::to_string(layer_wise_total_l1_size), this->GetName());
+//                  error_handler_->TerminateProgram();
+//            }
+//            if(layer_wise_total_l2_size > configuration_->l2_size_) {
+//                  error_handler_->PrintErrorMsg(TL::ErrorCode::NotEnoughL2Buffer,std::to_string(layer_wise_total_l2_size), this->GetName());
+//                  error_handler_->TerminateProgram();
+//            }
+            if(layer_wise_total_l1_size > min_l1_size_req) {
+              min_l1_size_req = layer_wise_total_l1_size;
             }
-            if(layer_wise_total_l2_size > configuration_->l2_size_) {
-                  error_handler_->PrintErrorMsg(TL::ErrorCode::NotEnoughL2Buffer,std::to_string(layer_wise_total_l2_size), this->GetName());
-                  error_handler_->TerminateProgram();
+            if(layer_wise_total_l2_size > min_l2_size_req) {
+              min_l2_size_req = layer_wise_total_l2_size;
             }
             //====
           }
           //felix
+            if(min_l1_size_req > configuration_->l1_size_){
+              std::cout << "[WARNING] Per-layer L1 size requirement [" << min_l1_size_req << "] is larger than the given L1 size [" << configuration_->l1_size_ << "]"<< std::endl;
+            }
+            if(min_l2_size_req > configuration_->l2_size_){
+              std::cout << "[WARNING] Per-layer L2 size requirement [" << min_l2_size_req << "] is larger than the given L2 size [" << configuration_->l2_size_ << "]"<< std::endl;
+            }
             std::cout << "[Model Summary]" << std::endl;
             std::cout << "Model-wise total L2 size requirement: " << model_wise_total_l2_size << std::endl;
             std::cout << "Model-wise total L1 size requirement: " << model_wise_total_l1_size << std::endl;
