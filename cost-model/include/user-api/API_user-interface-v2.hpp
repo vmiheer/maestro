@@ -178,8 +178,8 @@ namespace maestro {
               std::cout << "[WARNING] Per-layer L2 size requirement [" << min_l2_size_req << "] is larger than the given L2 size [" << configuration_->l2_size_ << "]"<< std::endl;
             }
             std::cout << "[Model Summary]" << std::endl;
-            std::cout << "Model-wise total L2 size requirement: " << model_wise_total_l2_size << std::endl;
-            std::cout << "Model-wise total L1 size requirement: " << model_wise_total_l1_size << std::endl;
+            std::cout << "Model-wise total L2 size usage: " << model_wise_total_l2_size << std::endl;
+            std::cout << "Model-wise total L1 size usage: " << model_wise_total_l1_size << std::endl;
           //====
         }
 
