@@ -217,8 +217,14 @@ namespace maestro {
             double ops_per_joule, double pe_power, double l1_power, double l2_power,
             double noc_power, std::shared_ptr<CA::CostAnalyisResults> cost_analysis_results) {
           double throughput =  static_cast<double>(num_partial_sums)/ static_cast<double>(dp->runtime_);
+//          outfile_ << nn_name << "," << layer_name << "," << dp->num_pes_ << "," << dp->runtime_ << "," << dp->energy_ << "," << throughput << ","  << dp->performance_per_energy_
+//                   << "," << dp->area_ << "," << dp->power_ << "," << dp->noc_bw_ << "," << cost_analysis_results->GetAvgBWReq() << "," << cost_analysis_results->GetPeakBWReq() << "," << dp->vector_width_ << "," << dp->l2_sram_sz << ","
+//                   <<  dp->l1_sram_sz << "," << dp->GetMulticastingFactor("weight") << "," << dp->GetMulticastingFactor("input")
+//                   << "," << num_inputs << "," << num_weights << "," << ops_per_joule << "," << num_partial_sums
+//                   << "," << pe_power << "," << l1_power << "," << l2_power << "," << noc_power << ",";
+          //felix ignore noc_bw output
           outfile_ << nn_name << "," << layer_name << "," << dp->num_pes_ << "," << dp->runtime_ << "," << dp->energy_ << "," << throughput << ","  << dp->performance_per_energy_
-                   << "," << dp->area_ << "," << dp->power_ << "," << dp->noc_bw_ << "," << cost_analysis_results->GetAvgBWReq() << "," << cost_analysis_results->GetPeakBWReq() << "," << dp->vector_width_ << "," << dp->l2_sram_sz << ","
+                   << "," << dp->area_ << "," << dp->power_ << "," << cost_analysis_results->GetPeakBWReq() << "," << cost_analysis_results->GetAvgBWReq() << "," << cost_analysis_results->GetPeakBWReq() << "," << dp->vector_width_ << "," << dp->l2_sram_sz << ","
                    <<  dp->l1_sram_sz << "," << dp->GetMulticastingFactor("weight") << "," << dp->GetMulticastingFactor("input")
                    << "," << num_inputs << "," << num_weights << "," << ops_per_joule << "," << num_partial_sums
                    << "," << pe_power << "," << l1_power << "," << l2_power << "," << noc_power << ",";

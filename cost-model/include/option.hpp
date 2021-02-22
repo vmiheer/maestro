@@ -37,7 +37,7 @@ namespace maestro {
     public:
       /* Default values : Models MAERI with VGG16 and 64 multiplier switches*/
       int np = 7;
-      int bw = 32;
+      int bw = 70000;
       int hops = 1;
       int hop_latency = 1;
       bool mc = true;
