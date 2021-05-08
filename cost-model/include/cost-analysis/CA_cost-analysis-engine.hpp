@@ -135,7 +135,9 @@ namespace maestro {
           /* Cost stats */
           long peak_noc_bw_req = 0;
           long double avg_noc_bw_req = 0;
-
+          //felix
+          long off_chip_bw_req = 0;
+          //
           long double delays[static_cast<int>(DelayType::NumDelayTypes)][static_cast<int>(ValueType::NumValTypes)];
           for(int i = 0; i < static_cast<int>(DelayType::NumDelayTypes); i++) {
             delays[i][static_cast<int>(ValueType::Min)] = std::numeric_limits<long double>::max();
@@ -338,6 +340,13 @@ namespace maestro {
               auto ingress_offchip_delay = (do_double_buffering)?in_buffer_delay/2:in_buffer_delay;
               auto egress_offchip_delay = (do_double_buffering)?out_buffer_delay/2:out_buffer_delay;
               outstanding_delay =  (do_double_buffering)?std::max(ingress_offchip_delay, std::max(outstanding_delay, egress_offchip_delay)): outstanding_delay + ingress_offchip_delay + egress_offchip_delay;
+              //felix
+              off_chip_bw_req = std::max(off_chip_bw_req, results->GetBufferSizeReq(CA::BufferType::Upstream, DataClass::Output)/outstanding_delay);
+              off_chip_bw_req = std::max(off_chip_bw_req, (results->GetBufferSizeReq(CA::BufferType::Upstream, DataClass::Input) + results->GetBufferSizeReq(CA::BufferType::Upstream, DataClass::Weight))/outstanding_delay);
+              off_chip_bw_req = (do_double_buffering)?off_chip_bw_req/2:off_chip_bw_req;
+              //
+              //felix
+              results->UpdateOffchipBWReq(off_chip_bw_req);
             }
             //
             results->UpdateRuntime(results->GetRuntime(CA::EstimationType::Exact) + num_case_occurrences * outstanding_delay, CA::EstimationType::Exact);

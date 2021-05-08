@@ -121,9 +121,7 @@ int main(int argc, char** argv)
     std::shared_ptr<std::vector<int>> noc_bw = std::make_shared<std::vector<int>>();
 
     //felix
-    if(option.offchip_bw ==-1){
-      option.offchip_bw =  option.bw;
-    }
+
     noc_bw->push_back(option.bw);
     noc_bw->push_back(option.bw);
     noc_bw->push_back(option.bw);
